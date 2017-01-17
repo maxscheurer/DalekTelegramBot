@@ -3,7 +3,10 @@ from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters, ConversationHandler, RegexHandler
 from telegram.replykeyboardmarkup import *
-updater = Updater(token="256474863:AAHCu547v1mc2SBMT2DpbM8fN6wLEPFUih8")
+
+tokenfile = open("bot_token","r")
+token = tokenfile.readline().strip()
+updater = Updater(token=token)
 dispatcher = updater.dispatcher
 
 CHOOSING, TYPING_REPLY, TYPING_CHOICE = range(3)
