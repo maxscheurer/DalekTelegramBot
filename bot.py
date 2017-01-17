@@ -38,6 +38,7 @@ def regular_choice(bot, update, user_data):
 
 def custom_choice(bot, update, user_data):
     text = update.message.text
+    logging.info(text)
     if ("dr" in text.lower()) or ("doctor" in text.lower()):
         voice = open('sounds/Exterminate.mp3', 'rb')
         bot.sendVoice(update.message.chat_id, voice)
