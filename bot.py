@@ -18,17 +18,17 @@ import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 def start(bot, update):
-    update.message.reply_text(chat_id=update.message.chat_id, text="We are the Daaaalek! *Identify! Identify!*",parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=markup_id)
+    update.message.reply_text("We are the Daaaalek! *Identify! Identify!*", parse_mode=telegram.ParseMode.MARKDOWN, reply_markup=markup_id)
     return CHOOSING
 
 def echo(bot, update):
-    bot.sendMessage(chat_id=update.message.chat_id, text=update.message.text)
+    bot.sendMessage(update.message.text)
 
 def regular_choice(bot, update, user_data):
     text = update.message.text
     if text != "Dalek":
         voice = open('sounds/Exterminate.mp3', 'rb')
-        bot.sendVoice(update.message.chat_id,voice)
+        bot.sendVoice(update.message.chat_id, voice)
 
 def custom_choice(bot, update, user_data):
     pass
