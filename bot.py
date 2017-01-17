@@ -48,7 +48,7 @@ def custom_choice(bot, update, user_data):
         bot.sendVoice(update.message.chat_id, voice)
 
 def done(bot,update):
-    bot.sendMessage(update.message.chat_id, "Stay", parse_mode=telegram.ParseMode.MARKDOWN)
+    bot.sendMessage(update.message.chat_id, "Stay!", parse_mode=telegram.ParseMode.MARKDOWN)
     voice = open('sounds/Stay.mp3', 'rb')
     bot.sendVoice(update.message.chat_id, voice)
 
@@ -64,7 +64,7 @@ conv_handler = ConversationHandler(
             CHOOSING: [RegexHandler('^(Human|Dalek|Cyberman|Weeping Angel)$',
                                     regular_choice,
                                     pass_user_data=True),
-                       RegexHandler('^(Bye|Done|Cu|Got to go|So long|I am too old for this shit)$',
+                       RegexHandler('^(Bye|Done|Cu|Got to go|So long|I am too old for this shit|goodbye)$',
                                     done),
                        MessageHandler(Filters.text,
                                     custom_choice, pass_user_data=True),
