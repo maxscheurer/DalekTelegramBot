@@ -11,7 +11,8 @@ dispatcher = updater.dispatcher
 
 CHOOSING, TYPING_REPLY, TYPING_CHOICE = range(3)
 identity_keyboard = [['Human', 'Dalek'],
-                  ['Cyberman', 'Weeping Angel'],]
+                  ['Cyberman', 'Weeping Angel'],
+                  ['Rose Tyler'],]
 markup_id = ReplyKeyboardMarkup(identity_keyboard, one_time_keyboard=True)
 
 import logging
@@ -26,7 +27,9 @@ def echo(bot, update):
 
 def regular_choice(bot, update, user_data):
     text = update.message.text
-    if text != "Dalek":
+    if "Rose Tyler" in text:
+        bot.sendMessage(update.message.chat_id, "* Genetic material extrapolated! Initiating reconstruction! *", parse_mode=telegram.ParseMode.MARKDOWN)
+    elif text != "Dalek":
         voice = open('sounds/Exterminate.mp3', 'rb')
         bot.sendVoice(update.message.chat_id, voice)
     else:
@@ -61,7 +64,7 @@ conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
 
         states={
-            CHOOSING: [RegexHandler('^(Human|Dalek|Cyberman|Weeping Angel)$',
+            CHOOSING: [RegexHandler('^(Human|Dalek|Cyberman|Weeping Angel|Rose Tyler)$',
                                     regular_choice,
                                     pass_user_data=True),
                        RegexHandler('^(Bye|Done|Cu|Got to go|So long|I am too old for this shit|goodbye)$',
