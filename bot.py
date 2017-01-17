@@ -29,12 +29,33 @@ def regular_choice(bot, update, user_data):
     if text != "Dalek":
         voice = open('sounds/Exterminate.mp3', 'rb')
         bot.sendVoice(update.message.chat_id, voice)
+    else:
+        voice = open('sounds/Go_stronger.mp3', 'rb')
+        bot.sendVoice(update.message.chat_id, voice)
 
 def custom_choice(bot, update, user_data):
-    pass
+    text = update.message.text
+    if ("dr" in text.lower()) or ("doctor" in text.lower()):
+        voice = open('sounds/Exterminate.mp3', 'rb')
+        bot.sendVoice(update.message.chat_id, voice)
+        bot.sendMessage(update.message.chat_id, "We are the Daaaalek! \n You are the doctor \n *The doctor must die!* \n *Exterminaaaaate!!! Exterminate!!!*", parse_mode=telegram.ParseMode.MARKDOWN)
+
+    else:
+        bot.sendMessage(update.message.chat_id,
+                        "We are the Daaaalek! \n You are " + text + " \n *Exterminate!!! Exterminate!!!*",
+                        parse_mode=telegram.ParseMode.MARKDOWN)
+        voice = open('sounds/Exterminate.mp3', 'rb')
+        bot.sendVoice(update.message.chat_id, voice)
 
 def done(bot,update):
-    pass
+    bot.sendMessage(update.message.chat_id, "Stay", parse_mode=telegram.ParseMode.MARKDOWN)
+    voice = open('sounds/Stay.mp3', 'rb')
+    bot.sendVoice(update.message.chat_id, voice)
+
+    return ConversationHandler.END
+
+
+
 #handling start command
 conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
@@ -43,12 +64,14 @@ conv_handler = ConversationHandler(
             CHOOSING: [RegexHandler('^(Human|Dalek|Cyberman|Weeping Angel)$',
                                     regular_choice,
                                     pass_user_data=True),
-                       RegexHandler('^Something else...$',
-                                    custom_choice),
+                       RegexHandler('^(Bye|Done|Cu|Got to go|So long|I am too old for this shit)$',
+                                    done),
+                       MessageHandler(Filters.text,
+                                    custom_choice, pass_user_data=True),
                        ],
         },
 
-        fallbacks=[RegexHandler('^Done$', done, pass_user_data=True)]
+        fallbacks=[RegexHandler('^Done$', done)]
     )
 
 dispatcher.add_handler(conv_handler)
